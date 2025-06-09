@@ -1,0 +1,82 @@
+#+TITLE: 
+#+AUTHOR: ATTA
+#+STARTUP: overview
+#+OPTIONS: toc:2
+
+* Table of contents :toc:
+-  [[#table][TABLE]]
+- [[#chapter-3][CHAPTER 3]]
+  - [[#classification][Classification]]
+
+*  TABLE
+
+
+
+| Feature                     | Batch Gradient Descent (BGD)                   | Stochastic Gradient Descent (SGD)       | Mini-Batch Gradient Descent (MBGD)                 |
+|-----------------------------+------------------------------------------------+-----------------------------------------+----------------------------------------------------|
+| Update Frequency            | After entire dataset                           | After each training sample              | After each mini-batch                              |
+| Computational Efficiency    | Low (expensive for large datasets)             | High (fast updates)                     | Moderate (faster than BGD, but not as fast as SGD) |
+| Convergence Path            | Smooth and deterministic                       | Noisy and fluctuating                   | Balanced (less noisy than SGD)                     |
+| Memory Requirements         | High (entire dataset must fit in memory)       | Low (one example at a time)             | Moderate (depends on batch size)                   |
+| Suitable for Large Datasets | Not ideal (slow and memory-intensive)          | Yes (efficient for very large datasets) | Yes (works well for large datasets)                |
+| Escape Local Minima         | Can get stuck in local minima                  | Yes (randomness helps escape)           | Yes (less noisy than SGD, still has randomness)    |
+| Speed of Convergence        | Slow (entire dataset processed before updates) | Slower (fluctuations reduce speed)      | Faster (compared to BGD, less noisy than SGD)      |
+| Online Learning             | No (needs entire dataset)                      | Yes (works well with real-time data)    | Yes (works well with real-time data)               |
+* CHAPTER 3
+** Classification
+*** MNIST
+MNIST datasets
+70,000 small images, school kids, US Census Bureau
+Each image (28x28) has a label
+Images are flattende: 784 features
+Create a train test sets 60000 and 10000
+*** Binary Classifier
+Train a binary classifier (if an images contains the digit 5)
+`SGDclassifier`:
+    - Can handel large datasets efficiently
+    - In part, because, it deals with training instances independly (one at a time)
+*** Performance Measures
+Accuracy using cross validation
+    Skewed dataset, accuracy is not a good measure
+    
+Confusion Matrix
+   Conunt the number of times instance A is classified as instance B
+   `crossValScore()`: returns the scores (based on some performance measure)
+   `crossValPredict()`: returns the preductions
+
+   Precision:  TP/(TP+TP), accuracy of positive prediction
+        Good for video detection for kids
+   Recall: (or sensitivity or TPR)  TP/(TP+FN):
+        Ratio of positive instances that are correctly detected by the classifier
+        Good for detecting shop lifters
+
+   F_1 Score:  TP/(TP+0.5*(FP+FN))
+        Combine precision and recall
+        Simple way for comparing two classifier
+
+Precision/Recall Trade-Off:
+    For SGDClassifier:
+    It computes a score based on a decision function and threshold
+
+How to pick up threshold value:
+    `SGDClassifier.decision-function' return scroe for each instance
+    Then use user specified threshold
+    Use `cross-val-predict` function to get scroe of all instances
+    Use `precision-recall-curve` function to get prec/recall for all
+    possible thresholds
+
+Precision vs Recall
+    pick up value befor the curve drops sharply 
+
+    High precision classifier is not good if it has low recall
+
+ROC Curve (Receiver Operating Statistics)
+    TPR (Recall) vs FPR 
+    FPR: ration of negative instances that are incorrectly classified as positive
+
+    TNR: Specity: the ration of negative class that are correcly classified as negative.
+
+       
+    A perfect classifier would have a AUCROC=1, choose the classifier with larger area.
+
+        Remark: Use PR curve whenever +ve class is rare, or you care more about the false positives than false negatives. Otherwise use ROC curve 

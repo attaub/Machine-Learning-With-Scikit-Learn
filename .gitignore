@@ -1,0 +1,15 @@
+# Ignore directories with specific names anywhere in the repo
+**/images/
+**/data/
+**/datasets/
+**/__pycache__/
+
+# Ignore Emacs undo-tree files
+*~undo-tree~
+
+# Ignore Emacs and Vim backup and lock files
+*~
+*.swp
+*.swo
+*.lock
+.#*
